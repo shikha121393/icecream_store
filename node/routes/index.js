@@ -1,5 +1,5 @@
-var express = require('express');
-var router = express.Router();
+let express = require('express');
+let router = express.Router();
 const yelp = require('yelp-fusion');
 const token = 'Y8s6dW3uAs-TZ34YRekghk7llJxJuj3JjNAcLtADi-OZ02Dl66_soagZHv-eTyQFHC8fGWfxblXrZxyW3msB1GARItcv2KG0qhzgowweVi4qxdw3fijzXeIyKKd2XXYx';
 const client = yelp.client(token);
@@ -30,17 +30,16 @@ router.use(function(req, res, next){
 		if(topFiveBusinesses.length === 5 ){
 			break;
 		}else{
-			for (var i=0; i<=data.length-1; i++){
-				if(data[i].rating === countCriteria){
-					topFiveBusinesses.push(data[i]);
+			data.map(function(business){
+				if(business.rating === countCriteria){
+					topFiveBusinesses.push(business);
 				}
-				if(topFiveBusinesses.length === 5 ){
+				if(topFiveBusinesses.length === 5){
 					break;
 				}
-			}
+			})
 			countCriteria = countCriteria - 0.5;
 		}
-		
 	}
 	res.data = topFiveBusinesses;
 	next();
